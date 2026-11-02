@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Lapak Warga{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="{% url 'home' %}"><span class="brand-mark">L</span> lapak<span>warga.</span></a>
+  <nav><a href="{% url 'home' %}">Beranda</a><a href="{% url 'product_list' %}">Jelajahi Produk</a></nav>
+  <div class="nav-actions">
+    {% if user.is_authenticated %}
+      <a class="nav-user" href="{% url 'dashboard' %}">Halo, {{ user.first_name|default:user.username }}</a>
+      <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="btn btn-outline btn-small">Keluar</button></form>
+    {% else %}
+      <a class="login-link" href="{% url 'login' %}">Masuk</a><a class="btn btn-primary btn-small" href="{% url 'register' %}">Daftar</a>
+    {% endif %}
+  </div>
+</header>
+{% if messages %}<div class="messages">{% for message in messages %}<div class="message">{{ message }}</div>{% endfor %}</div>{% endif %}
+<main>{% block content %}{% endblock %}</main>
+<footer><div class="footer-brand">lapak<span>warga.</span></div><p>Belanja dekat, dukung usaha warga.</p><small>© 2026 Lapak Warga. Marketplace komunitas.</small></footer>
+</body></html>

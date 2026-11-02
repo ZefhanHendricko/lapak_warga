@@ -1,0 +1,41 @@
+{% extends "marketplace/base.html" %} {% block title %} {{ product.name }} |
+Lapak Warga {% endblock %} {% block content %}
+<section class="section">
+  <div style="margin-bottom: 25px">
+    <a href="{% url 'product_list' %}"> ← Kembali ke Katalog </a>
+  </div>
+
+  <div class="detail-layout">
+    <div class="detail-image">
+      {% if product.image %}
+      <img src="{{ product.image.url }}" alt="{{ product.name }}" />
+      {% else %}
+      <div class="detail-placeholder">🛍️</div>
+      {% endif %}
+    </div>
+
+    <div class="detail-info">
+      <span class="eyebrow">
+        {{ product.category|default:"Produk Warga" }}
+      </span>
+
+      <h1>{{ product.name }}</h1>
+
+      <h2>Rp {{ product.price|floatformat:0 }}</h2>
+
+      <p>{{ product.description|default:"Belum ada deskripsi produk." }}</p>
+
+      <div class="detail-meta">
+        <p>Penjual: <b>{{ product.seller.username }}</b></p>
+        <p>Stok tersedia: <b>{{ product.stock }}</b></p>
+      </div>
+
+      {% if product.stock > 0 %}
+      <span class="badge-stock">Produk tersedia</span>
+      {% else %}
+      <span class="badge-empty">Stok habis</span>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "marketplace/base.html" %}
+{% block title %}Dashboard — Lapak Warga{% endblock %}
+{% block content %}
+<section class="dashboard-wrap">
+  <aside class="sidebar"><div class="profile-mini"><div class="profile-avatar">{{ user.first_name|default:user.username|first|upper }}</div><b>{{ user.first_name|default:user.username }}</b><small>@{{ user.username }}</small></div><a class="side-active" href="{% url 'dashboard' %}">▦ &nbsp; Ringkasan</a><a href="{% url 'product_list' %}">⌕ &nbsp; Jelajahi produk</a><a href="{% url 'home' %}">⌂ &nbsp; Beranda</a><form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="side-logout">↗ &nbsp; Keluar</button></form></aside>
+  <div class="dashboard-main"><div class="dash-heading"><div><span class="eyebrow">RUANG WARGA</span><h1>Selamat datang, {{ user.first_name|default:user.username }}! 👋</h1><p>Ini ringkasan aktivitas akun Lapak Warga kamu.</p></div><a class="btn btn-primary" href="{% url 'product_list' %}">Jelajahi produk →</a></div>
+  <div class="stat-grid"><div class="stat-card"><span>Total pesanan</span><b>{{ order_count }}</b><small>Pesanan atas akunmu</small></div><div class="stat-card"><span>Produk saya</span><b>{{ product_count }}</b><small>Produk yang kamu jual</small></div><div class="stat-card"><span>Status akun</span><b class="status-active">Aktif</b><small>Akun terdaftar</small></div></div>
+  <div class="dash-panel"><div class="panel-heading"><div><h2>Pesanan terbaru</h2><p>Pantau transaksi belanjamu.</p></div></div>
+  {% for order in orders %}<div class="order-row"><div class="order-icon">▤</div><div class="order-detail"><b>Pesanan #{{ order.id }}</b><small>{{ order.created_at|date:"d M Y" }} · Rp {{ order.total|floatformat:0 }}</small></div><span class="order-status">{{ order.get_status_display }}</span></div>
+  {% empty %}<div class="empty-state compact">Belum ada pesanan. Yuk, temukan produk menarik dari warga!</div>{% endfor %}</div>
+  <div class="dash-panel"><div class="panel-heading"><div><h2>Produk yang kamu jual</h2><p>Daftar produk dari akunmu.</p></div></div>
+  {% for product in recent_products %}<div class="order-row"><div class="order-icon">📦</div><div class="order-detail"><b>{{ product.name }}</b><small>Rp {{ product.price|floatformat:0 }} · Stok {{ product.stock }}</small></div></div>
+  {% empty %}<div class="empty-state compact">Kamu belum memiliki produk yang dijual.</div>{% endfor %}</div>
+  </div>
+</section>
+{% endblock %}

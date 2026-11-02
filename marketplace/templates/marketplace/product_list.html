@@ -1,0 +1,54 @@
+{% extends "marketplace/base.html" %} {% block title %}Katalog Produk | Lapak
+Warga{% endblock %} {% block content %}
+
+<section class="section listing">
+  <span class="eyebrow">MARKETPLACE LAPAK WARGA</span>
+
+  <div class="section-heading">
+    <div>
+      <h1>Temukan Produk <em>Warga</em></h1>
+      <p>Belanja dekat, dukung usaha warga.</p>
+    </div>
+  </div>
+
+  <div class="product-grid">
+    {% for product in products %}
+
+    <div class="product-card">
+      <a href="{% url 'product_detail' product.slug %}">
+        <div class="product-image">
+          {% if product.image %}
+          <img src="{{ product.image.url }}" alt="{{ product.name }}" />
+          {% else %} 🛍️ {% endif %}
+        </div>
+      </a>
+
+      <div class="product-info">
+        <small> {{ product.category|default:"Umum" }} </small>
+
+        <h3>{{ product.name }}</h3>
+
+        <strong> Rp {{ product.price|floatformat:0 }} </strong>
+
+        <p>Penjual: {{ product.seller.username }}</p>
+
+        <p>Stok: {{ product.stock }}</p>
+
+        <a
+          href="{% url 'product_detail' product.slug %}"
+          class="btn btn-primary btn-small"
+        >
+          Lihat Detail
+        </a>
+      </div>
+    </div>
+
+    {% empty %}
+
+    <div class="empty-state">Belum ada produk yang tersedia.</div>
+
+    {% endfor %}
+  </div>
+</section>
+
+{% endblock %}

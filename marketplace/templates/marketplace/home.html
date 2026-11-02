@@ -1,0 +1,17 @@
+{% extends "marketplace/base.html" %}
+{% block title %}Lapak Warga — Marketplace Komunitas{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-copy"><span class="eyebrow">✦ MARKETPLACE PUNYA KITA</span><h1>Temukan yang kamu cari,<br><em>dukung warga sekitar.</em></h1>
+  <p>Tempat jual beli produk lokal dengan mudah. Temukan barang unik dari penjual di komunitasmu.</p>
+  <div class="hero-actions"><a class="btn btn-primary" href="{% url 'product_list' %}">Jelajahi produk <span>→</span></a><a class="text-link" href="{% url 'register' %}">Mulai berjualan ↗</a></div>
+  <div class="hero-proof"><div class="avatar-stack"><i>W</i><i>A</i><i>R</i></div><span><b>Komunitas warga</b><br>Belanja lebih bermakna</span></div></div>
+  <div class="hero-art"><div class="art-circle"></div><div class="floating-card card-top">✦ Pilihan warga <b>Produk lokal</b></div><div class="market-bag">🛍️</div><div class="floating-card card-bottom"><span class="live-dot"></span> Transaksi praktis <b>& aman</b></div><div class="art-spark">✳</div></div>
+</section>
+<section class="benefits"><div><span>01</span><b>Dekat denganmu</b><small>Temukan produk dari warga sekitar.</small></div><div><span>02</span><b>Dukung lokal</b><small>Bantu usaha kecil berkembang.</small></div><div><span>03</span><b>Mudah & praktis</b><small>Jual beli dalam satu platform.</small></div></section>
+<section class="section"><div class="section-heading"><div><span class="eyebrow">PILIHAN KOMUNITAS</span><h2>Produk pilihan <em>hari ini.</em></h2></div><a class="text-link" href="{% url 'product_list' %}">Lihat semua →</a></div>
+<div class="product-grid">
+{% for product in products %}<article class="product-card"><div class="product-image">{% if product.image %}<img src="{{ product.image.url }}" alt="{{ product.name }}">{% else %}<span>📦</span>{% endif %}</div><div class="product-info"><small>{{ product.category|default:"Produk warga" }}</small><h3>{{ product.name }}</h3><strong>Rp {{ product.price|floatformat:0 }}</strong><p>Oleh {{ product.seller.username }}</p></div></article>
+{% empty %}<div class="empty-state">Belum ada produk. Tambahkan produk melalui halaman admin Django.</div>{% endfor %}
+</div></section>
+{% endblock %}

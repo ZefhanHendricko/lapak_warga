@@ -1,0 +1,82 @@
+{% extends "marketplace/base.html" %} {% block title %}Dashboard Admin | Lapak
+Warga{% endblock %} {% block content %}
+
+<div class="dashboard-wrap">
+  <aside class="sidebar">
+    <div class="profile-mini">
+      <div class="profile-avatar">A</div>
+      <b>{{ user.username }}</b>
+      <small>Administrator</small>
+    </div>
+
+    <a href="{% url 'dashboard' %}" class="side-active"> Dashboard </a>
+
+    <a href="{% url 'product_list' %}"> Katalog Produk </a>
+
+    <a href="/admin/"> Kelola Data </a>
+
+    <a href="{% url 'home' %}"> Kembali ke Beranda </a>
+  </aside>
+
+  <section class="dash-content">
+    <div class="dash-heading">
+      <div>
+        <span class="eyebrow">ADMIN PANEL</span>
+        <h1>Dashboard Admin</h1>
+        <p>Selamat datang, {{ user.first_name|default:user.username }}!</p>
+      </div>
+
+      <a href="/admin/" class="btn btn-primary"> Kelola Website </a>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <span>Total Pengguna</span>
+        <b>{{ total_users }}</b>
+        <small>Jumlah akun terdaftar</small>
+      </div>
+
+      <div class="stat-card">
+        <span>Total Produk</span>
+        <b>{{ total_products }}</b>
+        <small>Produk di marketplace</small>
+      </div>
+
+      <div class="stat-card">
+        <span>Total Pesanan</span>
+        <b>{{ total_orders }}</b>
+        <small>Pesanan yang tercatat</small>
+      </div>
+    </div>
+
+    <div class="dash-panel">
+      <div class="panel-heading">
+        <h2>Produk Terbaru</h2>
+        <p>Daftar lima produk terbaru di Lapak Warga.</p>
+      </div>
+
+      {% for product in recent_products %}
+
+      <div class="order-row">
+        <div class="order-icon">🛍️</div>
+
+        <div class="order-detail">
+          <b>{{ product.name }}</b>
+          <small>
+            Penjual: {{ product.seller.username }} · Stok: {{ product.stock }}
+          </small>
+        </div>
+
+        <span class="order-status"> Rp {{ product.price|floatformat:0 }} </span>
+      </div>
+
+      {% empty %}
+
+      <div class="empty-state">Belum ada produk yang tersedia.</div>
+
+      {% endfor %}
+    </div>
+  </section>
+</div>
+
+{% endblock %}
