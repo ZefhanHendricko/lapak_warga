@@ -42,3 +42,7 @@ staticfiles/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Database backup
+backup_lapak_warga.json
+backup_lapak_warga_original.json

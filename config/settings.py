@@ -67,6 +67,7 @@ TEMPLATES = [{
 WSGI_APPLICATION = "config.wsgi.application"
 ASGI_APPLICATION = "config.asgi.application"
 
+
 # Database Configuration
 db_url = os.getenv("DATABASE_URL", "").strip()
 
@@ -81,10 +82,12 @@ if db_url:
     DATABASES["default"]["OPTIONS"] = {
         **DATABASES["default"].get("OPTIONS", {}),
         "charset": "utf8mb4",
-        "ssl": {
-            "check_hostname": True,
-        },
     }
+
+    if "tidbcloud.com" in DATABASES["default"].get("HOST", ""):
+        DATABASES["default"]["OPTIONS"]["ssl"] = {
+            "check_hostname": True,
+        }
 
 elif os.getenv("VERCEL"):
     raise RuntimeError(
@@ -98,6 +101,7 @@ else:
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
+
     
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
