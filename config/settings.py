@@ -68,7 +68,6 @@ WSGI_APPLICATION = "config.wsgi.application"
 ASGI_APPLICATION = "config.asgi.application"
 
 # Database Configuration
-# Database Configuration
 db_url = os.getenv("DATABASE_URL", "").strip()
 
 if db_url:
@@ -82,12 +81,14 @@ if db_url:
     DATABASES["default"]["OPTIONS"] = {
         **DATABASES["default"].get("OPTIONS", {}),
         "charset": "utf8mb4",
-        "ssl": {},
+        "ssl": {
+            "check_hostname": True,
+        },
     }
 
 elif os.getenv("VERCEL"):
-    raise ValueError(
-        "DATABASE_URL belum dikonfigurasi di Vercel"
+    raise RuntimeError(
+        "DATABASE_URL belum dikonfigurasi di Vercel."
     )
 
 else:
